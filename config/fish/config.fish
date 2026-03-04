@@ -33,9 +33,9 @@ function gitpush
     end
 end
 
-source $HOME/.alias-fish
+test -f $HOME/.alias-fish; and source $HOME/.alias-fish
 
-if test -x (command -v nvim)
+if test -x (command -v nvim); and test -f $HOME/.alias-neovim.fish
     source $HOME/.alias-neovim.fish
 end
 
@@ -246,16 +246,14 @@ test ! -f "$HOME/.ssh/id_rsa.pub"; and ssh-keygen -y -f "$HOME/.ssh/id_rsa" >"$H
 test -f "$HOME/.ssh/id_ed25519"; and test ! -f "$HOME/.ssh/id_ed25519.pub"; and ssh-keygen -y -f "$HOME/.ssh/id_ed25519" >"$HOME/.ssh/id_ed25519.pub"
 test ! -d "$XDG_DATA_HOME/pyenv"; and git clone https://github.com/pyenv/pyenv.git "$XDG_DATA_HOME/pyenv"
 
-if test -z (find ~/.fonts -maxdepth 1 -type f -name Monofur_for_Powerline.ttf 2>/dev/null)
-    mkdir -p ~/.fonts
-    cd ~/.fonts
-    unzip $HOME/.local/fonts/monofur-fonts.zip
-    fc-cache -vf ~/.fonts/
-    cd -
-end
-
-if ! grep -A 3 '\[branch "main"\]' "$HOME/.git/config" | grep 'remote = origin' >/dev/null
-    git branch --set-upstream-to=origin/main main
+if type -q unzip; and type -q fc-cache
+    if test -z (find ~/.fonts -maxdepth 1 -type f -name Monofur_for_Powerline.ttf 2>/dev/null)
+        mkdir -p ~/.fonts
+        cd ~/.fonts
+        unzip $HOME/.local/fonts/monofur-fonts.zip
+        fc-cache -vf ~/.fonts/
+        cd -
+    end
 end
 
 test -f /opt/arduino/arduino; and ln -sfn /opt/arduino/arduino "$HOME/.local/bin/arduino" 2>/dev/null
