@@ -1,0 +1,43 @@
+# Dracula theme configuration for Starship
+format = """
+${custom.host}\
+$directory\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$git_branch\
+$character"""
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+[character]
+success_symbol = "[ ➜](bold green)" # normal prompt
+error_symbol = "[ ✖](bold red)" # used if previous command failed
+vicmd_symbol = "[ ⬅️](bold yellow)"
+
+[git_branch]
+# format = "[$symbol][$branch](bold purple)"
+format = " [$symbol](#ff79c6)[$branch]($style)"
+style = "bold purple"
+
+[git_status]
+format = "[$all_status$ahead_behind](bold purple)"
+style = "bold purple"
+
+[directory]
+truncate_to_repo = false
+truncation_length = 0 # parent directories to show; default is 3
+style = "bold cyan"
+
+[hostname]
+disabled = true
+
+[custom.host]
+command = 'cat /tmp/.chroot-name 2>/dev/null || cat /etc/hostname'
+when = "true"
+format = "[$output](bold blue) "
+
+[cmd_duration]
+style = "bold yellow"
