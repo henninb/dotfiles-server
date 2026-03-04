@@ -196,21 +196,6 @@ if not status is-interactive
     exit
 end
 
-if not type -q unzip >/dev/null
-    echo unzip not installed.
-end
-
-if not type -q fc-cache >/dev/null
-    echo fc-cache not installed.
-end
-
-if test "$OS" = Gentoo
-    if not command -v java-config >/dev/null 2>&1
-        echo "install java-config on gentoo"
-    end
-else if not set -q JAVA_HOME
-    echo "JAVA_HOME is not set up for $OS"
-end
 
 if test (uname) = Linux
     if test -f /sys/module/hid_apple/parameters/fnmode
@@ -246,15 +231,6 @@ test ! -f "$HOME/.ssh/id_rsa.pub"; and ssh-keygen -y -f "$HOME/.ssh/id_rsa" >"$H
 test -f "$HOME/.ssh/id_ed25519"; and test ! -f "$HOME/.ssh/id_ed25519.pub"; and ssh-keygen -y -f "$HOME/.ssh/id_ed25519" >"$HOME/.ssh/id_ed25519.pub"
 test ! -d "$XDG_DATA_HOME/pyenv"; and git clone https://github.com/pyenv/pyenv.git "$XDG_DATA_HOME/pyenv"
 
-if type -q unzip; and type -q fc-cache
-    if test -z (find ~/.fonts -maxdepth 1 -type f -name Monofur_for_Powerline.ttf 2>/dev/null)
-        mkdir -p ~/.fonts
-        cd ~/.fonts
-        unzip $HOME/.local/fonts/monofur-fonts.zip
-        fc-cache -vf ~/.fonts/
-        cd -
-    end
-end
 
 test -f /opt/arduino/arduino; and ln -sfn /opt/arduino/arduino "$HOME/.local/bin/arduino" 2>/dev/null
 test -f /opt/intellij/bin/idea; and ln -sfn /opt/intellij/bin/idea "$HOME/.local/bin/intellij" 2>/dev/null
@@ -272,27 +248,6 @@ chmod 700 "$HOME"
 test -d "$HOME/.gnupg"; and chmod 700 "$HOME/.gnupg"
 test -f "$HOME/.ghci"; and chmod 644 "$HOME/.ghci"
 
-if not test -d $HOME/keepass-git
-    mkdir $HOME/keepass-git
-end
-
-cd $HOME/keepass-git
-
-if git fetch
-    git merge origin/main >/dev/null
-end
-cd -
-
-if not test -d $HOME/files
-    mkdir $HOME/files
-end
-
-cd $HOME/files
-
-if git fetch
-    git merge origin/main >/dev/null
-end
-cd -
 
 # vim keybindings
 fish_vi_key_bindings
