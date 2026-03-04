@@ -15,6 +15,12 @@ link "$DOTFILES/config/fish/config.fish" "$CONFIG/fish/config.fish"
 link "$DOTFILES/config/starship.toml"   "$CONFIG/starship.toml"
 link "$DOTFILES/config/nvim"            "$CONFIG/nvim"
 
+if [ "$(uname)" = "Linux" ]; then
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+  chmod u+x nvim-linux-x86_64.appimage
+  sudo mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
+fi
+
 echo ""
 echo "Dotfiles installed."
 
